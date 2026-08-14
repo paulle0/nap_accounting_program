@@ -39,13 +39,11 @@ var MARKUP = `
 
   <div class="col-body">
 
-    ${row('user', 'Not signed in', 'Connect a signer')}
-
     <div class="menu-sep"></div>
 
-    <div class="menu-label">General</div>
-    ${row('moon', 'Theme', 'System')}
-    ${row('settings', 'Language', 'English')}
+    <div class="menu-label">Preferences</div>
+    ${row('settings', 'General', '')}
+    ${row('moon', 'Appearance', '')}
 
     <div class="menu-sep"></div>
 
