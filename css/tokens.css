@@ -1,0 +1,66 @@
+/* ==========================================================================
+   nap — tokens.css
+   Every visual decision lives here as a custom property. Change the palette
+   in this file and the whole app follows.
+
+   light-dark() picks a value per colour scheme, so the theme toggle only has
+   to flip `color-scheme` — there is no second palette to maintain.
+   ========================================================================== */
+
+:root {
+  color-scheme: light dark;
+
+  /* --- brand ------------------------------------------------------------ */
+  --accent:        #6d28d9;
+  --accent-hover:  light-dark(#5b21b6, #7c3aed);
+  --accent-fg:     #ffffff;
+  --accent-soft:   light-dark(#f4f1fe, #1d1630);
+  --accent-line:   light-dark(#ddd3fa, #35275e);
+  --ring:          color-mix(in srgb, var(--accent) 45%, transparent);
+
+  /* --- surfaces --------------------------------------------------------- */
+  --bg:            light-dark(#fbfbfc, #0c0c0f);
+  --surface:       light-dark(#ffffff, #131318);
+  --surface-hover: light-dark(#f4f3f6, #1a1a21);
+  --surface-sunk:  light-dark(#f6f5f8, #101014);
+  --overlay:       light-dark(#ffffff, #1a1a21);
+
+  /* --- text ------------------------------------------------------------- */
+  --fg:            light-dark(#18181b, #f2f2f4);
+  --fg-muted:      light-dark(#6a6a76, #9a9aa7);
+  --fg-subtle:     light-dark(#9a9aa7, #6a6a76);
+
+  /* --- lines ------------------------------------------------------------ */
+  --border:        light-dark(#e7e5ea, #26262f);
+  --border-strong: light-dark(#d5d2dc, #35353f);
+
+  /* --- semantic: the two sides of a posting -----------------------------
+     Deliberately independent of --accent, so debit and credit stay
+     distinguishable whatever you do to the brand colour.
+     ---------------------------------------------------------------------- */
+  --debit:         light-dark(#0f766e, #2dd4bf);
+  --credit:        light-dark(#b45309, #fbbf24);
+
+  /* --- geometry --------------------------------------------------------- */
+  --radius:      12px;
+  --radius-sm:   8px;
+  --radius-pill: 999px;
+  --sidebar-w:   248px;
+  --rail-w:      72px;
+  --head-h:      56px;
+
+  /* --- type ------------------------------------------------------------- */
+  --font-ui:   ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Mono",
+               Menlo, Consolas, monospace;
+
+  /* --- elevation -------------------------------------------------------- */
+  --shadow-menu: 0 1px 2px rgb(0 0 0 / .06),
+                 0 12px 32px -8px light-dark(rgb(0 0 0 / .18), rgb(0 0 0 / .6));
+}
+
+/* Manual theme override — the toggle sets data-theme on <html>.
+   Forcing color-scheme is enough; light-dark() does the rest. */
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }

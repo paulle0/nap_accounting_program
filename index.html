@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>nap — accounting on nostr</title>
+<meta name="description" content="Double-entry accounting on nostr. Ledgers, entries and reports as signed events.">
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/nap_logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="nap">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0c0f" media="(prefers-color-scheme: dark)">
+
+<!-- Order matters: tokens define the variables, layout builds the shell,
+     components style the pieces inside it. -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- ======================================================================
+       SIDEBAR
+       ====================================================================== -->
+  <aside class="sidebar">
+
+    <a class="brand" href="#" aria-label="nap — home">
+      <img class="brand-mark" src="assets/nap_logo.svg" alt="" width="36" height="36">
+      <span class="brand-text">
+        <span class="brand-name">nap</span>
+        <span class="brand-sub">accounting on nostr</span>
+      </span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+      <a class="nav-item" href="#" aria-current="page">
+        <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>
+        <span>Entries</span>
+        <span class="nav-count">248</span>
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
+        <span>Ledgers</span>
+        <span class="nav-count">3</span>
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="icon" aria-hidden="true"><use href="#i-tree"/></svg>
+        <span>Chart of accounts</span>
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg>
+        <span>Reports</span>
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="icon" aria-hidden="true"><use href="#i-users"/></svg>
+        <span>Partners</span>
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="icon" aria-hidden="true"><use href="#i-relay"/></svg>
+        <span>Relays</span>
+        <span class="nav-count">4</span>
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="icon" aria-hidden="true"><use href="#i-settings"/></svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-cta">
+      <button class="btn btn-accent btn-block" type="button">
+        <svg class="icon icon-sm" aria-hidden="true"><use href="#i-plus"/></svg>
+        <span>New entry</span>
+      </button>
+    </div>
+
+    <div class="sidebar-foot">
+      <button class="account" type="button" popovertarget="account-menu">
+        <span class="avatar" aria-hidden="true">PL</span>
+        <span class="account-text">
+          <span class="account-name">paul</span>
+          <span class="account-key">npub1p4u…q7k3d</span>
+        </span>
+      </button>
+
+      <div id="account-menu" popover class="menu">
+        <div class="menu-label">Signed in with NIP-07</div>
+        <button class="menu-item" type="button">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-user"/></svg>
+          Profile
+        </button>
+        <button class="menu-item" type="button">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-key"/></svg>
+          Signer &amp; subkeys
+        </button>
+        <button class="menu-item" type="button" data-theme-toggle>
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-moon"/></svg>
+          Switch theme
+        </button>
+        <div class="menu-sep"></div>
+        <button class="menu-item" type="button">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-logout"/></svg>
+          Sign out
+        </button>
+      </div>
+    </div>
+
+  </aside>
+
+
+  <!-- ======================================================================
+       PRIMARY COLUMN — the feed
+       ====================================================================== -->
+  <main class="col col-primary">
+
+    <header class="col-head">
+      <div class="col-head-row">
+        <button class="selector" type="button" popovertarget="ledger-menu">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="selector-label">Steinbach GbR · main ledger</span>
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+        </button>
+
+        <div id="ledger-menu" popover class="menu">
+          <div class="menu-label">Your ledgers</div>
+          <button class="menu-item" type="button">
+            <span class="dot" aria-hidden="true"></span>
+            Steinbach GbR · main ledger
+          </button>
+          <button class="menu-item" type="button">
+            <span class="dot dot-muted" aria-hidden="true"></span>
+            Steinbach GbR · 2025 archive
+          </button>
+          <button class="menu-item" type="button">
+            <span class="dot dot-muted" aria-hidden="true"></span>
+            Shared flat expenses
+          </button>
+          <div class="menu-sep"></div>
+          <button class="menu-item" type="button">
+            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-plus"/></svg>
+            Create a ledger
+          </button>
+        </div>
+
+        <div class="col-head-spacer"></div>
+
+        <button class="btn-icon" type="button" aria-label="Search entries">
+          <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+        </button>
+        <button class="btn-icon" type="button" aria-label="Filter">
+          <svg class="icon" aria-hidden="true"><use href="#i-filter"/></svg>
+        </button>
+      </div>
+
+      <nav class="tabs" role="tablist" aria-label="Entry views">
+        <a class="tab" href="#" role="tab" aria-selected="true">All entries</a>
+        <a class="tab" href="#" role="tab" aria-selected="false">Unresolved</a>
+        <a class="tab" href="#" role="tab" aria-selected="false">Drafts</a>
+        <a class="tab" href="#" role="tab" aria-selected="false">Documents</a>
+      </nav>
+    </header>
+
+    <div class="col-body">
+
+      <!-- ENTRY CARD ----------------------------------------------------- -->
+      <article class="card entry">
+        <div class="entry-head">
+          <span class="avatar" aria-hidden="true">PL</span>
+          <span class="entry-author">
+            <span class="entry-name">paul</span>
+            <span class="entry-key">npub1p4u…q7k3d</span>
+          </span>
+          <time class="entry-time" datetime="2026-06-02">2 Jun 2026</time>
+          <button class="btn-icon" type="button" aria-label="More actions">
+            <svg class="icon" aria-hidden="true"><use href="#i-more"/></svg>
+          </button>
+        </div>
+
+        <div class="posting">
+          <span class="leg leg-debit">
+            <span class="leg-label">Debit</span>
+            <span class="leg-account">Bank · Sparkasse</span>
+            <span class="leg-code">1200</span>
+          </span>
+          <svg class="icon posting-arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          <span class="leg leg-credit">
+            <span class="leg-label">Credit</span>
+            <span class="leg-account">Consulting revenue</span>
+            <span class="leg-code">4400</span>
+          </span>
+          <span class="entry-amount">1 250,00 <span class="entry-unit">EUR</span></span>
+        </div>
+
+        <p class="entry-desc">Invoice 2026-014 — May retainer</p>
+
+        <div class="entry-foot">
+          <span class="badge">Revenue</span>
+          <span class="badge badge-muted">Steinbach AG</span>
+          <span class="chip">
+            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-paperclip"/></svg>
+            1 document
+          </span>
+          <span class="chip">
+            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-relay"/></svg>
+            3 relays
+          </span>
+        </div>
+      </article>
+
+      <!-- ENTRY CARD ----------------------------------------------------- -->
+      <article class="card entry">
+        <div class="entry-head">
+          <span class="avatar" aria-hidden="true">MK</span>
+          <span class="entry-author">
+            <span class="entry-name">mira · bookkeeping</span>
+            <span class="entry-key">npub1mk8…3fz2w</span>
+          </span>
+          <time class="entry-time" datetime="2026-06-01">1 Jun 2026</time>
+          <button class="btn-icon" type="button" aria-label="More actions">
+            <svg class="icon" aria-hidden="true"><use href="#i-more"/></svg>
+          </button>
+        </div>
+
+        <div class="posting">
+          <span class="leg leg-debit">
+            <span class="leg-label">Debit</span>
+            <span class="leg-account">Office supplies</span>
+            <span class="leg-code">6815</span>
+          </span>
+          <svg class="icon posting-arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          <span class="leg leg-credit">
+            <span class="leg-label">Credit</span>
+            <span class="leg-account">Cash</span>
+            <span class="leg-code">1000</span>
+          </span>
+          <span class="entry-amount">42,90 <span class="entry-unit">EUR</span></span>
+        </div>
+
+        <p class="entry-desc">Notebooks and printer paper</p>
+
+        <div class="entry-foot">
+          <span class="badge badge-muted">Expense</span>
+          <span class="chip">
+            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-relay"/></svg>
+            2 relays
+          </span>
+        </div>
+      </article>
+
+      <!-- ENTRY CARD — non-currency unit, shows the unit system ----------- -->
+      <article class="card entry">
+        <div class="entry-head">
+          <span class="avatar" aria-hidden="true">PL</span>
+          <span class="entry-author">
+            <span class="entry-name">paul</span>
+            <span class="entry-key">npub1p4u…q7k3d</span>
+          </span>
+          <time class="entry-time" datetime="2026-05-28">28 May 2026</time>
+          <button class="btn-icon" type="button" aria-label="More actions">
+            <svg class="icon" aria-hidden="true"><use href="#i-more"/></svg>
+          </button>
+        </div>
+
+        <div class="posting">
+          <span class="leg leg-debit">
+            <span class="leg-label">Debit</span>
+            <span class="leg-account">Wallet · ecash</span>
+            <span class="leg-code">1310</span>
+          </span>
+          <svg class="icon posting-arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          <span class="leg leg-credit">
+            <span class="leg-label">Credit</span>
+            <span class="leg-account">Zap income</span>
+            <span class="leg-code">4700</span>
+          </span>
+          <span class="entry-amount">0.00021000 <span class="entry-unit">BTC</span></span>
+        </div>
+
+        <p class="entry-desc">Zaps received, week 22 — aggregated from NIP-60 history</p>
+
+        <div class="entry-foot">
+          <span class="badge">Revenue</span>
+          <span class="badge badge-muted">Automated</span>
+          <span class="chip">
+            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-relay"/></svg>
+            4 relays
+          </span>
+        </div>
+      </article>
+
+      <!-- LOADING PLACEHOLDER -------------------------------------------- -->
+      <div class="card skeleton-card" aria-hidden="true">
+        <div class="sk sk-38"></div>
+        <div class="sk sk-lg"></div>
+        <div class="sk sk-62"></div>
+      </div>
+
+      <button class="btn btn-outline load-more" type="button">Load older entries</button>
+
+    </div>
+  </main>
+
+
+  <!-- ======================================================================
+       SECONDARY COLUMN — detail / context panel
+       This is where clicking an entry, an account or a partner opens.
+       ====================================================================== -->
+  <aside class="col col-secondary" aria-label="Details">
+
+    <header class="col-head">
+      <div class="col-head-row">
+        <h2 class="col-head-title">Ledger overview</h2>
+        <div class="col-head-spacer"></div>
+        <button class="btn-icon" type="button" aria-label="Close panel">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="col-body">
+
+      <!-- ledger identity ------------------------------------------------- -->
+      <section class="card card-pad">
+        <h3 class="card-subtitle">Steinbach GbR · main ledger</h3>
+        <p class="card-text">
+          Operating ledger for the partnership. Entries by the two assigned
+          bookkeepers only.
+        </p>
+        <dl class="kv">
+          <dt>Identifier</dt>
+          <dd class="mono">steinbach-main</dd>
+
+          <dt>Kind</dt>
+          <dd class="mono">37701</dd>
+
+          <dt>Units</dt>
+          <dd>
+            <span class="badge badge-muted">EUR</span>
+            <span class="badge badge-muted">BTC</span>
+          </dd>
+
+          <dt>Accountants</dt>
+          <dd>
+            <span class="stack">
+              <span class="avatar avatar-sm">PL</span>
+              <span class="avatar avatar-sm">MK</span>
+            </span>
+          </dd>
+        </dl>
+      </section>
+
+      <!-- balances -------------------------------------------------------- -->
+      <section class="card">
+        <div class="card-head">
+          <h3 class="card-title">Balances · EUR</h3>
+          <div class="col-head-spacer"></div>
+          <span class="chip">as of 2 Jun 2026</span>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Account</th>
+              <th scope="col" class="num">Debit</th>
+              <th scope="col" class="num">Credit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1000 · Cash</td>            <td class="num">1 480,10</td>  <td class="num">—</td></tr>
+            <tr><td>1200 · Bank</td>            <td class="num">18 940,55</td> <td class="num">—</td></tr>
+            <tr><td>4400 · Consulting</td>      <td class="num">—</td>         <td class="num">16 250,00</td></tr>
+            <tr><td>6815 · Office supplies</td> <td class="num">612,35</td>    <td class="num">—</td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td>Total</td><td class="num">21 033,00</td><td class="num">21 033,00</td></tr>
+          </tfoot>
+        </table>
+      </section>
+
+      <!-- empty state ------------------------------------------------------
+           Swap this in when nothing is selected. Kept here so you can see
+           how it looks before wiring anything up.
+           ------------------------------------------------------------------ -->
+      <section class="card">
+        <div class="empty">
+          <span class="empty-icon">
+            <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>
+          </span>
+          <span class="empty-title">Nothing selected</span>
+          <span class="empty-text">Pick an entry, an account or a partner to see its detail here.</span>
+        </div>
+      </section>
+
+    </div>
+  </aside>
+
+</div>
+
+
+<!-- ==========================================================================
+     ICON SPRITE
+     All the artwork in one place. Add a <symbol id="i-…"> here and reference
+     it anywhere with <svg class="icon"><use href="#i-…"/></svg>.
+     Kept inline rather than in assets/, because an external sprite file
+     breaks <use> on file:// and in older Safari.
+     ========================================================================== -->
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-ledger"   viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-book"     viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></symbol>
+  <symbol id="i-tree"     viewBox="0 0 24 24"><circle cx="12" cy="19" r="2.5"/><circle cx="6" cy="5" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M18 7.5v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-1M12 10.5v6"/></symbol>
+  <symbol id="i-chart"    viewBox="0 0 24 24"><path d="M3 3v16.5A1.5 1.5 0 0 0 4.5 21H21"/><path d="M7 16v-4M12 16V8M17 16v-6"/></symbol>
+  <symbol id="i-users"    viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-relay"    viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="7" rx="2"/><rect x="2" y="14" width="20" height="7" rx="2"/><path d="M6 6.5h.01M6 17.5h.01"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M5 21v-6M5 11V3M12 21v-9M12 8V3M19 21v-4M19 13V3M2 15h6M9 8h6M16 17h6"/></symbol>
+  <symbol id="i-plus"     viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-search"   viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.9-3.9"/></symbol>
+  <symbol id="i-filter"   viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4 2v-8Z"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-more"     viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M4 12h16M14 6l6 6-6 6"/></symbol>
+  <symbol id="i-paperclip" viewBox="0 0 24 24"><path d="M21 11.5 12.5 20a5.5 5.5 0 0 1-7.8-7.8l8.5-8.5a3.7 3.7 0 0 1 5.2 5.2l-8.5 8.5a1.8 1.8 0 0 1-2.6-2.6l7.8-7.8"/></symbol>
+  <symbol id="i-x"        viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-user"     viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-key"      viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.8 12.2 8.2-8.2M16 7l3 3M13.5 9.5l3 3"/></symbol>
+  <symbol id="i-moon"     viewBox="0 0 24 24"><path d="M12 3a6.4 6.4 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="i-logout"   viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+</svg>
+
+
+<script>
+/* --------------------------------------------------------------------------
+   The only JavaScript in this file: the theme toggle.
+   Everything else — the two menus, ESC-to-close, click-outside — is handled
+   natively by the Popover API.
+   -------------------------------------------------------------------------- */
+(function () {
+  var root = document.documentElement;
+
+  function read() {
+    try { return localStorage.getItem('nap-theme'); } catch (e) { return null; }
+  }
+  function write(v) {
+    try { localStorage.setItem('nap-theme', v); } catch (e) {}
+  }
+
+  var saved = read();
+  if (saved) root.dataset.theme = saved;
+
+  document.querySelectorAll('[data-theme-toggle]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var systemDark = matchMedia('(prefers-color-scheme: dark)').matches;
+      var current = root.dataset.theme || (systemDark ? 'dark' : 'light');
+      var next = current === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      write(next);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

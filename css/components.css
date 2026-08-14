@@ -1,0 +1,480 @@
+/* ==========================================================================
+   nap — components.css
+   Reusable pieces. Loaded last, so it can rely on tokens.css and layout.css.
+
+   Contents
+     1. Buttons
+     2. Selector (ledger / relay-set picker)
+     3. Tabs
+     4. Popover menu
+     5. Avatar
+     6. Badges & chips
+     7. Card
+     8. Ledger entry card
+     9. Data table
+    10. Key/value list
+    11. Empty state
+    12. Loading placeholder
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. BUTTONS
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color .12s, border-color .12s, color .12s;
+}
+.btn-accent { background: var(--accent); color: var(--accent-fg); }
+.btn-accent:hover { background: var(--accent-hover); }
+
+.btn-outline { border-color: var(--border-strong); color: var(--fg); }
+.btn-outline:hover { background: var(--surface-hover); }
+
+.btn-ghost { color: var(--fg-muted); }
+.btn-ghost:hover { background: var(--surface-hover); color: var(--fg); }
+
+.btn-block { width: 100%; }
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  color: var(--fg-muted);
+  transition: background-color .12s, color .12s;
+}
+.btn-icon:hover { background: var(--surface-hover); color: var(--fg); }
+
+
+/* ==========================================================================
+   2. SELECTOR
+   ========================================================================== */
+.selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  height: 34px;
+  padding: 0 10px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  anchor-name: --ledger-anchor;
+  transition: background-color .12s;
+}
+.selector:hover { background: var(--surface-hover); }
+.selector-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.selector .icon { color: var(--fg-subtle); }
+
+.dot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.dot-muted { background: var(--fg-subtle); }
+
+
+/* ==========================================================================
+   3. TABS
+   ========================================================================== */
+.tabs {
+  display: flex;
+  gap: 2px;
+  padding: 0 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+
+.tab {
+  position: relative;
+  padding: 10px 12px 11px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--fg-muted);
+  white-space: nowrap;
+}
+.tab:hover { color: var(--fg); }
+.tab[aria-selected="true"] { color: var(--fg); font-weight: 600; }
+.tab[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  inset-inline: 12px;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  background: var(--accent);
+}
+
+
+/* ==========================================================================
+   4. POPOVER MENU
+   Native Popover API: no JS, no focus-trap code. ESC and click-outside come
+   free. CSS anchor positioning places it, with a plain fallback for browsers
+   that don't have anchor positioning yet.
+   ========================================================================== */
+.menu {
+  width: max-content;
+  min-width: 230px;
+  max-width: 320px;
+  margin: 0;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--overlay);
+  color: var(--fg);
+  box-shadow: var(--shadow-menu);
+}
+.menu:popover-open { display: grid; gap: 1px; }
+
+.menu-label {
+  padding: 6px 10px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  text-align: left;
+}
+.menu-item:hover { background: var(--surface-hover); }
+.menu-item .icon { color: var(--fg-muted); }
+
+.menu-sep {
+  height: 1px;
+  margin: 5px 6px;
+  background: var(--border);
+}
+
+/* anchored placement */
+#ledger-menu {
+  position-anchor: --ledger-anchor;
+  position-area: block-end span-inline-end;
+  margin-top: 6px;
+}
+#account-menu {
+  position-anchor: --account-anchor;
+  position-area: block-start span-inline-end;
+  margin-bottom: 6px;
+}
+@supports not (anchor-name: --x) {
+  #ledger-menu {
+    position: fixed;
+    inset: 60px auto auto calc(var(--sidebar-w) + 12px);
+  }
+  #account-menu {
+    position: fixed;
+    inset: auto auto 76px 12px;
+  }
+}
+
+
+/* ==========================================================================
+   5. AVATAR
+   ========================================================================== */
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  overflow: hidden;
+}
+.avatar-sm { width: 26px; height: 26px; font-size: 11px; }
+
+.stack { display: flex; }
+.stack .avatar { border: 2px solid var(--surface); }
+.stack .avatar + .avatar { margin-left: -8px; }
+
+
+/* ==========================================================================
+   6. BADGES & CHIPS
+   ========================================================================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 22px;
+  padding: 0 9px;
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge-muted {
+  border-color: var(--border);
+  background: var(--surface-sunk);
+  color: var(--fg-muted);
+  font-weight: 500;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+
+
+/* ==========================================================================
+   7. CARD
+   ========================================================================== */
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.card-pad { padding: 14px; }
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.card-title { font-size: 13px; font-weight: 600; }
+.card-subtitle { font-size: 15px; }
+.card-text {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--fg-muted);
+}
+
+
+/* ==========================================================================
+   8. LEDGER ENTRY CARD
+   The feed item. Structurally the same slot as a jumble note card:
+   author row, body, footer of metadata.
+   ========================================================================== */
+.entry {
+  padding: 14px;
+  transition: border-color .12s;
+}
+.entry:hover { border-color: var(--border-strong); }
+
+.entry-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.entry-author { display: grid; min-width: 0; line-height: 1.25; }
+.entry-name { font-size: 14px; font-weight: 600; }
+.entry-key {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--fg-subtle);
+}
+.entry-time {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--fg-subtle);
+  white-space: nowrap;
+}
+
+/* the double-entry posting line */
+.posting {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunk);
+}
+.leg { display: grid; gap: 2px; min-width: 0; }
+.leg-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+.leg-debit  .leg-label { color: var(--debit); }
+.leg-credit .leg-label { color: var(--credit); }
+.leg-credit { text-align: right; }
+.leg-account {
+  font-size: 13.5px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.leg-code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fg-subtle);
+}
+.posting-arrow { color: var(--fg-subtle); }
+
+.entry-amount {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 2px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border-strong);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.01em;
+}
+.entry-unit {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+.entry-desc { margin-top: 12px; font-size: 14px; }
+
+.entry-foot {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.entry-foot .chip:last-child { margin-left: auto; }
+
+
+/* ==========================================================================
+   9. DATA TABLE
+   ========================================================================== */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.table th {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+.table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.table tbody tr:last-child td { border-bottom: 0; }
+
+/* every figure right-aligned and tabular, so columns line up */
+.table .num {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.table tfoot td {
+  border-top: 1px solid var(--border-strong);
+  border-bottom: 0;
+  font-weight: 700;
+}
+
+
+/* ==========================================================================
+   10. KEY/VALUE LIST
+   ========================================================================== */
+.kv {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 16px;
+  font-size: 13px;
+}
+.kv dt { color: var(--fg-muted); }
+.kv dd { margin: 0; text-align: right; }
+.kv .mono { font-family: var(--font-mono); font-size: 12px; }
+.kv .stack { justify-content: flex-end; }
+.card-text + .kv { margin-top: 14px; }
+
+
+/* ==========================================================================
+   11. EMPTY STATE
+   ========================================================================== */
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 48px 24px;
+  text-align: center;
+}
+.empty-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius);
+  background: var(--surface-sunk);
+  color: var(--fg-subtle);
+}
+.empty-title { font-size: 14px; font-weight: 600; }
+.empty-text {
+  max-width: 30ch;
+  font-size: 13px;
+  color: var(--fg-muted);
+}
+
+
+/* ==========================================================================
+   12. LOADING PLACEHOLDER
+   ========================================================================== */
+.skeleton-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+}
+.sk {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg,
+    var(--surface-sunk) 0%,
+    var(--surface-hover) 50%,
+    var(--surface-sunk) 100%);
+  background-size: 200% 100%;
+  animation: sk 1.4s linear infinite;
+}
+.sk-lg { height: 46px; border-radius: var(--radius-sm); }
+.sk-38 { width: 38%; }
+.sk-62 { width: 62%; }
+
+@keyframes sk { to { background-position: -200% 0; } }
+
+.load-more { justify-self: center; }
