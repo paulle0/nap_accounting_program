@@ -1,17 +1,15 @@
 {
-  "name": "nap — accounting on nostr",
+  "name": "nap accounting program",
   "short_name": "nap",
-  "description": "Double-entry accounting on nostr. Ledgers, entries and reports as signed events.",
+  "description": "Double-entry accounting over nostr. Ledgers, entries and reports as signed events.",
   "lang": "en",
-  "dir": "ltr",
   "start_url": "./",
-  "scope": "./",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui", "browser"],
   "orientation": "any",
   "background_color": "#fbfbfc",
   "theme_color": "#6d28d9",
-  "categories": ["finance", "business", "productivity"],
+  "categories": ["accounting"],
   "icons": [
     {
       "src": "assets/nap_logo.svg",
@@ -36,20 +34,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "New entry",
-      "short_name": "New entry",
-      "description": "Post a new ledger entry",
-      "url": "./?view=entry-new"
-    },
-    {
-      "name": "Reports",
-      "short_name": "Reports",
-      "description": "Open the reports view",
-      "url": "./?view=reports"
     }
   ]
 }
