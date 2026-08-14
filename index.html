@@ -41,12 +41,10 @@
       <a class="nav-item" href="#" aria-current="page">
         <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>
         <span>Entries</span>
-        <span class="nav-count">248</span>
       </a>
       <a class="nav-item" href="#">
         <svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
         <span>Ledgers</span>
-        <span class="nav-count">3</span>
       </a>
       <a class="nav-item" href="#">
         <svg class="icon" aria-hidden="true"><use href="#i-tree"/></svg>
@@ -63,7 +61,6 @@
       <a class="nav-item" href="#">
         <svg class="icon" aria-hidden="true"><use href="#i-relay"/></svg>
         <span>Relays</span>
-        <span class="nav-count">4</span>
       </a>
       <a class="nav-item" href="#">
         <svg class="icon" aria-hidden="true"><use href="#i-settings"/></svg>
@@ -80,31 +77,23 @@
 
     <div class="sidebar-foot">
       <button class="account" type="button" popovertarget="account-menu">
-        <span class="avatar" aria-hidden="true">PL</span>
+        <span class="avatar" aria-hidden="true">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-user"/></svg>
+        </span>
         <span class="account-text">
-          <span class="account-name">paul</span>
-          <span class="account-key">npub1p4u…q7k3d</span>
+          <span class="account-name">No profile signed in</span>
+          <span class="account-key">Sign in account</span>
         </span>
       </button>
 
       <div id="account-menu" popover class="menu">
-        <div class="menu-label">Signed in with NIP-07</div>
-        <button class="menu-item" type="button">
-          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-user"/></svg>
-          Profile
-        </button>
         <button class="menu-item" type="button">
           <svg class="icon icon-sm" aria-hidden="true"><use href="#i-key"/></svg>
-          Signer &amp; subkeys
+          Sign in
         </button>
         <button class="menu-item" type="button" data-theme-toggle>
           <svg class="icon icon-sm" aria-hidden="true"><use href="#i-moon"/></svg>
           Switch theme
-        </button>
-        <div class="menu-sep"></div>
-        <button class="menu-item" type="button">
-          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-logout"/></svg>
-          Sign out
         </button>
       </div>
     </div>
@@ -113,33 +102,24 @@
 
 
   <!-- ======================================================================
-       PRIMARY COLUMN — the feed
+       PRIMARY COLUMN
+       Start view: welcome text only. The entry feed (entry cards, tabs,
+       skeletons, load-more) gets rendered into .col-body once a ledger is
+       selected — the classes for all of it live in css/components.css.
        ====================================================================== -->
   <main class="col col-primary">
 
     <header class="col-head">
       <div class="col-head-row">
         <button class="selector" type="button" popovertarget="ledger-menu">
-          <span class="dot" aria-hidden="true"></span>
-          <span class="selector-label">Steinbach GbR · main ledger</span>
+          <span class="dot dot-muted" aria-hidden="true"></span>
+          <span class="selector-label">No ledger selected</span>
           <svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron-down"/></svg>
         </button>
 
         <div id="ledger-menu" popover class="menu">
           <div class="menu-label">Your ledgers</div>
-          <button class="menu-item" type="button">
-            <span class="dot" aria-hidden="true"></span>
-            Steinbach GbR · main ledger
-          </button>
-          <button class="menu-item" type="button">
-            <span class="dot dot-muted" aria-hidden="true"></span>
-            Steinbach GbR · 2025 archive
-          </button>
-          <button class="menu-item" type="button">
-            <span class="dot dot-muted" aria-hidden="true"></span>
-            Shared flat expenses
-          </button>
-          <div class="menu-sep"></div>
+          <!-- ledger list is rendered here -->
           <button class="menu-item" type="button">
             <svg class="icon icon-sm" aria-hidden="true"><use href="#i-plus"/></svg>
             Create a ledger
@@ -155,151 +135,28 @@
           <svg class="icon" aria-hidden="true"><use href="#i-filter"/></svg>
         </button>
       </div>
-
-      <nav class="tabs" role="tablist" aria-label="Entry views">
-        <a class="tab" href="#" role="tab" aria-selected="true">All entries</a>
-        <a class="tab" href="#" role="tab" aria-selected="false">Unresolved</a>
-        <a class="tab" href="#" role="tab" aria-selected="false">Drafts</a>
-        <a class="tab" href="#" role="tab" aria-selected="false">Documents</a>
-      </nav>
     </header>
 
     <div class="col-body">
 
-      <!-- ENTRY CARD ----------------------------------------------------- -->
-      <article class="card entry">
-        <div class="entry-head">
-          <span class="avatar" aria-hidden="true">PL</span>
-          <span class="entry-author">
-            <span class="entry-name">paul</span>
-            <span class="entry-key">npub1p4u…q7k3d</span>
-          </span>
-          <time class="entry-time" datetime="2026-06-02">2 Jun 2026</time>
-          <button class="btn-icon" type="button" aria-label="More actions">
-            <svg class="icon" aria-hidden="true"><use href="#i-more"/></svg>
-          </button>
-        </div>
+      <!-- WELCOME --------------------------------------------------------- -->
+      <section class="card card-pad">
+        <h2 class="card-subtitle">Welcome to nap</h2>
+        <p class="card-text">
+          nap keeps double-entry books on nostr. A ledger, its entries and its
+          reports are signed events on the relays you choose, so the books stay
+          yours and stay verifiable by anyone you share them with.
+        </p>
+        <p class="card-text">
+          Connect a signer, then open a ledger or create your first one. Entries
+          you post to it show up here.
+        </p>
+      </section>
 
-        <div class="posting">
-          <span class="leg leg-debit">
-            <span class="leg-label">Debit</span>
-            <span class="leg-account">Bank · Sparkasse</span>
-            <span class="leg-code">1200</span>
-          </span>
-          <svg class="icon posting-arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-          <span class="leg leg-credit">
-            <span class="leg-label">Credit</span>
-            <span class="leg-account">Consulting revenue</span>
-            <span class="leg-code">4400</span>
-          </span>
-          <span class="entry-amount">1 250,00 <span class="entry-unit">EUR</span></span>
-        </div>
-
-        <p class="entry-desc">Invoice 2026-014 — May retainer</p>
-
-        <div class="entry-foot">
-          <span class="badge">Revenue</span>
-          <span class="badge badge-muted">Steinbach AG</span>
-          <span class="chip">
-            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-paperclip"/></svg>
-            1 document
-          </span>
-          <span class="chip">
-            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-relay"/></svg>
-            3 relays
-          </span>
-        </div>
-      </article>
-
-      <!-- ENTRY CARD ----------------------------------------------------- -->
-      <article class="card entry">
-        <div class="entry-head">
-          <span class="avatar" aria-hidden="true">MK</span>
-          <span class="entry-author">
-            <span class="entry-name">mira · bookkeeping</span>
-            <span class="entry-key">npub1mk8…3fz2w</span>
-          </span>
-          <time class="entry-time" datetime="2026-06-01">1 Jun 2026</time>
-          <button class="btn-icon" type="button" aria-label="More actions">
-            <svg class="icon" aria-hidden="true"><use href="#i-more"/></svg>
-          </button>
-        </div>
-
-        <div class="posting">
-          <span class="leg leg-debit">
-            <span class="leg-label">Debit</span>
-            <span class="leg-account">Office supplies</span>
-            <span class="leg-code">6815</span>
-          </span>
-          <svg class="icon posting-arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-          <span class="leg leg-credit">
-            <span class="leg-label">Credit</span>
-            <span class="leg-account">Cash</span>
-            <span class="leg-code">1000</span>
-          </span>
-          <span class="entry-amount">42,90 <span class="entry-unit">EUR</span></span>
-        </div>
-
-        <p class="entry-desc">Notebooks and printer paper</p>
-
-        <div class="entry-foot">
-          <span class="badge badge-muted">Expense</span>
-          <span class="chip">
-            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-relay"/></svg>
-            2 relays
-          </span>
-        </div>
-      </article>
-
-      <!-- ENTRY CARD — non-currency unit, shows the unit system ----------- -->
-      <article class="card entry">
-        <div class="entry-head">
-          <span class="avatar" aria-hidden="true">PL</span>
-          <span class="entry-author">
-            <span class="entry-name">paul</span>
-            <span class="entry-key">npub1p4u…q7k3d</span>
-          </span>
-          <time class="entry-time" datetime="2026-05-28">28 May 2026</time>
-          <button class="btn-icon" type="button" aria-label="More actions">
-            <svg class="icon" aria-hidden="true"><use href="#i-more"/></svg>
-          </button>
-        </div>
-
-        <div class="posting">
-          <span class="leg leg-debit">
-            <span class="leg-label">Debit</span>
-            <span class="leg-account">Wallet · ecash</span>
-            <span class="leg-code">1310</span>
-          </span>
-          <svg class="icon posting-arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-          <span class="leg leg-credit">
-            <span class="leg-label">Credit</span>
-            <span class="leg-account">Zap income</span>
-            <span class="leg-code">4700</span>
-          </span>
-          <span class="entry-amount">0.00021000 <span class="entry-unit">BTC</span></span>
-        </div>
-
-        <p class="entry-desc">Zaps received, week 22 — aggregated from NIP-60 history</p>
-
-        <div class="entry-foot">
-          <span class="badge">Revenue</span>
-          <span class="badge badge-muted">Automated</span>
-          <span class="chip">
-            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-relay"/></svg>
-            4 relays
-          </span>
-        </div>
-      </article>
-
-      <!-- LOADING PLACEHOLDER -------------------------------------------- -->
-      <div class="card skeleton-card" aria-hidden="true">
-        <div class="sk sk-38"></div>
-        <div class="sk sk-lg"></div>
-        <div class="sk sk-62"></div>
-      </div>
-
-      <button class="btn btn-outline load-more" type="button">Load older entries</button>
+      <button class="btn btn-accent" type="button">
+        <svg class="icon icon-sm" aria-hidden="true"><use href="#i-plus"/></svg>
+        <span>Create a ledger</span>
+      </button>
 
     </div>
   </main>
@@ -307,94 +164,11 @@
 
   <!-- ======================================================================
        SECONDARY COLUMN — detail / context panel
-       This is where clicking an entry, an account or a partner opens.
+       Empty on start. Header and content get rendered when an entry, an
+       account or a partner is opened.
        ====================================================================== -->
   <aside class="col col-secondary" aria-label="Details">
-
-    <header class="col-head">
-      <div class="col-head-row">
-        <h2 class="col-head-title">Ledger overview</h2>
-        <div class="col-head-spacer"></div>
-        <button class="btn-icon" type="button" aria-label="Close panel">
-          <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
-        </button>
-      </div>
-    </header>
-
-    <div class="col-body">
-
-      <!-- ledger identity ------------------------------------------------- -->
-      <section class="card card-pad">
-        <h3 class="card-subtitle">Steinbach GbR · main ledger</h3>
-        <p class="card-text">
-          Operating ledger for the partnership. Entries by the two assigned
-          bookkeepers only.
-        </p>
-        <dl class="kv">
-          <dt>Identifier</dt>
-          <dd class="mono">steinbach-main</dd>
-
-          <dt>Kind</dt>
-          <dd class="mono">37701</dd>
-
-          <dt>Units</dt>
-          <dd>
-            <span class="badge badge-muted">EUR</span>
-            <span class="badge badge-muted">BTC</span>
-          </dd>
-
-          <dt>Accountants</dt>
-          <dd>
-            <span class="stack">
-              <span class="avatar avatar-sm">PL</span>
-              <span class="avatar avatar-sm">MK</span>
-            </span>
-          </dd>
-        </dl>
-      </section>
-
-      <!-- balances -------------------------------------------------------- -->
-      <section class="card">
-        <div class="card-head">
-          <h3 class="card-title">Balances · EUR</h3>
-          <div class="col-head-spacer"></div>
-          <span class="chip">as of 2 Jun 2026</span>
-        </div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Account</th>
-              <th scope="col" class="num">Debit</th>
-              <th scope="col" class="num">Credit</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>1000 · Cash</td>            <td class="num">1 480,10</td>  <td class="num">—</td></tr>
-            <tr><td>1200 · Bank</td>            <td class="num">18 940,55</td> <td class="num">—</td></tr>
-            <tr><td>4400 · Consulting</td>      <td class="num">—</td>         <td class="num">16 250,00</td></tr>
-            <tr><td>6815 · Office supplies</td> <td class="num">612,35</td>    <td class="num">—</td></tr>
-          </tbody>
-          <tfoot>
-            <tr><td>Total</td><td class="num">21 033,00</td><td class="num">21 033,00</td></tr>
-          </tfoot>
-        </table>
-      </section>
-
-      <!-- empty state ------------------------------------------------------
-           Swap this in when nothing is selected. Kept here so you can see
-           how it looks before wiring anything up.
-           ------------------------------------------------------------------ -->
-      <section class="card">
-        <div class="empty">
-          <span class="empty-icon">
-            <svg class="icon" aria-hidden="true"><use href="#i-ledger"/></svg>
-          </span>
-          <span class="empty-title">Nothing selected</span>
-          <span class="empty-text">Pick an entry, an account or a partner to see its detail here.</span>
-        </div>
-      </section>
-
-    </div>
+    <div class="col-body"></div>
   </aside>
 
 </div>
@@ -406,6 +180,7 @@
      it anywhere with <svg class="icon"><use href="#i-…"/></svg>.
      Kept inline rather than in assets/, because an external sprite file
      breaks <use> on file:// and in older Safari.
+     Symbols not used by the start view are kept for the views to come.
      ========================================================================== -->
 <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
   <symbol id="i-ledger"   viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
