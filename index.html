@@ -18,6 +18,8 @@
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
+
+  <script src="js/views/settings.js"></script>
 </head>
 
 <body>
@@ -62,7 +64,7 @@
         <svg class="icon" aria-hidden="true"><use href="#i-relay"/></svg>
         <span>Relays</span>
       </a>
-      <a class="nav-item" href="#">
+      <a class="nav-item" href="#" data-view="settings">
         <svg class="icon" aria-hidden="true"><use href="#i-settings"/></svg>
         <span>Settings</span>
       </a>
@@ -202,6 +204,8 @@
   <symbol id="i-key"      viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.8 12.2 8.2-8.2M16 7l3 3M13.5 9.5l3 3"/></symbol>
   <symbol id="i-moon"     viewBox="0 0 24 24"><path d="M12 3a6.4 6.4 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
   <symbol id="i-logout"   viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-arrow-left"    viewBox="0 0 24 24"><path d="M20 12H4M10 6l-6 6 6 6"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
 </svg>
 
 
@@ -234,6 +238,13 @@
     });
   });
 })();
+
+document.querySelector('.nav').addEventListener('click', function (e) {
+  var item = e.target.closest('[data-view="settings"]');
+  if (!item) return;
+  e.preventDefault();          // stop href="#" jumping to the top
+  renderSettings();
+});
 </script>
 
 </body>
